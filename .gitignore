@@ -1,0 +1,20 @@
+# sbt specific
+target/
+project/target/
+project/project/
+
+# metals specific
+.metals/
+*.metals/
+
+# vscode specific
+.vscode/
+*.code-workspace
+
+# scala specific
+*.class
+*.log
+*.bak
+
+# mac specific
+.DS_Store
