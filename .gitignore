@@ -1,7 +1,13 @@
-# sbt specific
+# SBT
 target/
 project/target/
 project/project/
+dist/
+.history
+lib_managed/
+src_managed/
+.cache
+.cache-main
 
 # metals specific
 .metals/
@@ -21,3 +27,17 @@ project/project/
 
 # bloop
 .bloop/
+
+# IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Logs
+log/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
