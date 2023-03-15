@@ -13,19 +13,19 @@ object ListingRoutes {
         // Handle GET /listings request
         ???
 
-      case GET -> Root / "listings" / LongVar(id) =>
+      case GET -> Root / "listings" / LongVar(_) =>
         // Handle GET /listings/:id request
         ???
 
-      case req @ POST -> Root / "listings" =>
+      case _ @POST -> Root / "listings" =>
         // Handle POST /listings request
         ???
 
-      case req @ PUT -> Root / "listings" / LongVar(id) =>
+      case _ @PUT -> Root / "listings" / LongVar(_) =>
         // Handle PUT /listings/:id request
         ???
 
-      case DELETE -> Root / "listings" / LongVar(id) =>
+      case DELETE -> Root / "listings" / LongVar(_) =>
         // Handle DELETE /listings/:id request
         ???
     }

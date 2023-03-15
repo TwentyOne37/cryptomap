@@ -13,19 +13,19 @@ object TransactionRoutes {
         // Handle GET /transactions request
         ???
 
-      case GET -> Root / "transactions" / LongVar(id) =>
+      case GET -> Root / "transactions" / LongVar(_) =>
         // Handle GET /transactions/:id request
         ???
 
-      case req @ POST -> Root / "transactions" =>
+      case _ @POST -> Root / "transactions" =>
         // Handle POST /transactions request
         ???
 
-      case req @ PUT -> Root / "transactions" / LongVar(id) =>
+      case _ @PUT -> Root / "transactions" / LongVar(_) =>
         // Handle PUT /transactions/:id request
         ???
 
-      case DELETE -> Root / "transactions" / LongVar(id) =>
+      case DELETE -> Root / "transactions" / LongVar(_) =>
         // Handle DELETE /transactions/:id request
         ???
     }

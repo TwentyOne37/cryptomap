@@ -13,19 +13,19 @@ object MerchantRoutes {
         // Handle GET /merchants request
         ???
 
-      case GET -> Root / "merchants" / LongVar(id) =>
+      case GET -> Root / "merchants" / LongVar(_) =>
         // Handle GET /merchants/:id request
         ???
 
-      case req @ POST -> Root / "merchants" =>
+      case _ @POST -> Root / "merchants" =>
         // Handle POST /merchants request
         ???
 
-      case req @ PUT -> Root / "merchants" / LongVar(id) =>
+      case _ @PUT -> Root / "merchants" / LongVar(_) =>
         // Handle PUT /merchants/:id request
         ???
 
-      case DELETE -> Root / "merchants" / LongVar(id) =>
+      case DELETE -> Root / "merchants" / LongVar(_) =>
         // Handle DELETE /merchants/:id request
         ???
     }

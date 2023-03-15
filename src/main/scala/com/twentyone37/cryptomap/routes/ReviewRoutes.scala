@@ -13,19 +13,19 @@ object ReviewRoutes {
         // Handle GET /review request
         ???
 
-      case GET -> Root / "review" / LongVar(id) =>
+      case GET -> Root / "review" / LongVar(_) =>
         // Handle GET /review/:id request
         ???
 
-      case req @ POST -> Root / "review" =>
+      case _ @POST -> Root / "review" =>
         // Handle POST /review request
         ???
 
-      case req @ PUT -> Root / "review" / LongVar(id) =>
+      case _ @PUT -> Root / "review" / LongVar(_) =>
         // Handle PUT /review/:id request
         ???
 
-      case DELETE -> Root / "review" / LongVar(id) =>
+      case DELETE -> Root / "review" / LongVar(_) =>
         // Handle DELETE /review/:id request
         ???
     }
