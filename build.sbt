@@ -28,7 +28,8 @@ lazy val root = (project in file("."))
       "org.tpolecat" %% "doobie-hikari" % doobieVersion,
       "org.bouncycastle" % "bcprov-jdk15on" % bouncyCastleVersion,
       "com.github.pureconfig" %% "pureconfig" % pureconfigVersion,
-      "com.github.pureconfig" %% "pureconfig-cats-effect" % pureconfigVersion
+      "com.github.pureconfig" %% "pureconfig-cats-effect" % pureconfigVersion,
+      "com.github.t3hnar" %% "scala-bcrypt" % "4.3.0"
     )
   )
 

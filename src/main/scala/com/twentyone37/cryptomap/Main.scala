@@ -1,24 +1,31 @@
 package com.twentyone37.cryptomap
 
 import cats.effect._
-import org.http4s.server.Router
-import org.http4s.blaze.server.BlazeServerBuilder
-import com.twentyone37.cryptomap.routes._
+import com.twentyone37.cryptomap.routes.AuthRoutes
+import com.twentyone37.cryptomap.services.UserService
+import com.twentyone37.cryptomap.repository.UserRepository
+import org.http4s.HttpRoutes
+import org.http4s.implicits._
+import org.http4s.server.blaze._
 
 object Main extends IOApp {
-  def run(args: List[String]): IO[ExitCode] =
+  override def run(args: List[String]): IO[ExitCode] = {
+    val userRepository = UserRepository.impl[IO]
+    val userService = UserService[IO](userRepository)
+    val app = createApp(userService)
+
     BlazeServerBuilder[IO]
       .bindHttp(8080, "localhost")
-      .withHttpApp(
-        Router(
-          "/merchants" -> MerchantRoutes[IO](),
-          "/listings" -> ListingRoutes[IO](),
-          "/transactions" -> TransactionRoutes[IO](),
-          "/reviews" -> ReviewRoutes[IO]()
-        ).orNotFound
-      )
+      .withHttpApp(app.orNotFound)
       .serve
       .compile
       .drain
       .as(ExitCode.Success)
+  }
+
+  private def createApp(userService: UserService[IO]): HttpRoutes[IO] = {
+    val authRoutes = AuthRoutes(userService).routes
+
+    authRoutes
+  }
 }
