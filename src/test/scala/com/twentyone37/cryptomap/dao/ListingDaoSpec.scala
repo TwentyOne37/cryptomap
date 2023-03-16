@@ -14,6 +14,7 @@ import com.twentyone37.cryptomap.models.currencies.BTC
 
 import java.math.BigDecimal
 
+import com.twentyone37.cryptomap.dao.ListingDao
 class ListingDaoSpec
     extends AnyFunSuite
     with Matchers

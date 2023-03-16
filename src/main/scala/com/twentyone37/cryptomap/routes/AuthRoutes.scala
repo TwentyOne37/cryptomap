@@ -32,7 +32,11 @@ class AuthRoutes[F[_]: Concurrent](userService: UserService[F])
     case req @ POST -> Root / "register" =>
       req.decode[RegisterRequest] { registerReq =>
         userService
-          .register(registerReq.username, registerReq.password)
+          .register(
+            registerReq.username,
+            registerReq.password,
+            registerReq.email
+          )
           .flatMap(user => Created(user.asJson))
       }
   }

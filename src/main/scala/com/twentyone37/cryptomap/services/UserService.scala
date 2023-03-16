@@ -8,7 +8,7 @@ import com.twentyone37.cryptomap.auth.Auth
 
 trait UserService[F[_]] {
   def login(username: String, password: String): F[Option[User]]
-  def register(username: String, password: String): F[User]
+  def register(username: String, password: String, email: String): F[User]
 }
 
 object UserService {
@@ -27,11 +27,16 @@ object UserService {
         }
       }
 
-      def register(username: String, password: String): F[User] = {
+      def register(
+          username: String,
+          password: String,
+          email: String
+      ): F[User] = {
         Async[F].fromEither(Auth.hashPasswordEither(password)).flatMap {
           hashedPassword =>
-            userRepo.create(User(0, username, hashedPassword)).flatMap { _ =>
-              userRepo.findByUsername(username).map(_.get)
+            userRepo.create(User(0, username, hashedPassword, email)).flatMap {
+              _ =>
+                userRepo.findByUsername(username).map(_.get)
             }
         }
       }
