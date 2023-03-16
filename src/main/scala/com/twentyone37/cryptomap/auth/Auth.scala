@@ -1,17 +1,45 @@
 package com.twentyone37.cryptomap.auth
 
-import cats.effect.IO
-import com.github.t3hnar.bcrypt._
-import scala.annotation.nowarn
+import java.security.MessageDigest
+import javax.crypto.SecretKeyFactory
+import javax.crypto.spec.PBEKeySpec
+import java.util.Base64
+import scala.util.Try
 
 object Auth {
-  def hashPassword(password: String): IO[String] = {
-    IO(password.boundedBcrypt)
+  val salt = "some-salt"
+  val iterations = 10000
+  val keyLength = 512
+
+  def hashPasswordEither(password: String): Either[Throwable, String] = {
+    Try(hashPassword(password)).toEither
   }
 
-  // todo: remove this once we have a better solution
-  @nowarn("cat=deprecation")
-  def checkPassword(password: String, hash: String): IO[Boolean] = {
-    IO(password.isBcrypted(hash))
+  def checkPasswordEither(
+      password: String,
+      hashedPassword: String
+  ): Either[Throwable, Boolean] = {
+    Try(checkPassword(password, hashedPassword)).toEither
+  }
+
+  private def hashPassword(password: String): String = {
+    val keySpec =
+      new PBEKeySpec(password.toCharArray, salt.getBytes, iterations, keyLength)
+    val skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512")
+    val hash = skf.generateSecret(keySpec).getEncoded
+    Base64.getEncoder.encodeToString(hash)
+  }
+
+  private def checkPassword(
+      password: String,
+      hashedPassword: String
+  ): Boolean = {
+    val providedHash = Base64.getDecoder.decode(hashedPassword)
+    val keySpec =
+      new PBEKeySpec(password.toCharArray, salt.getBytes, iterations, keyLength)
+    val skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512")
+    val calculatedHash = skf.generateSecret(keySpec).getEncoded
+
+    MessageDigest.isEqual(providedHash, calculatedHash)
   }
 }

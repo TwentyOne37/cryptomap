@@ -1,14 +1,23 @@
 package com.twentyone37.cryptomap.routes
 
-import cats.effect.Sync
+import cats.effect.Concurrent
 import cats.syntax.flatMap._
-import com.twentyone37.cryptomap.models.{LoginRequest, RegisterRequest, User}
-import com.twentyone37.cryptomap.services.UserService
 import io.circe.syntax._
+import io.circe.generic.auto._
+import org.http4s.circe._
 import org.http4s._
 import org.http4s.dsl.Http4sDsl
+import com.twentyone37.cryptomap.models._
+import com.twentyone37.cryptomap.services.UserService
 
-class AuthRoutes[F[_]: Sync](userService: UserService[F]) extends Http4sDsl[F] {
+class AuthRoutes[F[_]: Concurrent](userService: UserService[F])
+    extends Http4sDsl[F] {
+
+  implicit val loginRequestDecoder: EntityDecoder[F, LoginRequest] =
+    jsonOf[F, LoginRequest]
+  implicit val registerRequestDecoder: EntityDecoder[F, RegisterRequest] =
+    jsonOf[F, RegisterRequest]
+
   val routes: HttpRoutes[F] = HttpRoutes.of[F] {
     case req @ POST -> Root / "login" =>
       req.decode[LoginRequest] { loginReq =>
@@ -30,6 +39,6 @@ class AuthRoutes[F[_]: Sync](userService: UserService[F]) extends Http4sDsl[F] {
 }
 
 object AuthRoutes {
-  def apply[F[_]: Sync](userService: UserService[F]): AuthRoutes[F] =
+  def apply[F[_]: Concurrent](userService: UserService[F]): AuthRoutes[F] =
     new AuthRoutes[F](userService)
 }

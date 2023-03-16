@@ -6,7 +6,7 @@ import com.twentyone37.cryptomap.services.UserService
 import com.twentyone37.cryptomap.repository.UserRepository
 import org.http4s.HttpRoutes
 import org.http4s.implicits._
-import org.http4s.server.blaze._
+import org.http4s.blaze.server._
 
 object Main extends IOApp {
   override def run(args: List[String]): IO[ExitCode] = {

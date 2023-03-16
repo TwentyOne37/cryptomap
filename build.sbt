@@ -6,6 +6,7 @@ val bouncyCastleVersion = "1.69"
 val http4sJwtVersion = "1.1.0"
 val pureconfigVersion = "0.17.0"
 val postgresVersion = "42.2.23"
+val scalatestVersion = "3.2.9"
 
 lazy val root = (project in file("."))
   .settings(
@@ -18,9 +19,10 @@ lazy val root = (project in file("."))
     name := "CryptoMapAPI",
     libraryDependencies ++= Seq(
       "org.http4s" %% "http4s-blaze-server" % http4sVersion,
-      "org.http4s" %% "http4s-dsl" % http4sVersion,
       "org.http4s" %% "http4s-circe" % http4sVersion,
+      "org.http4s" %% "http4s-dsl" % http4sVersion,
       "io.circe" %% "circe-generic" % circeVersion,
+      "io.circe" %% "circe-parser" % circeVersion,
       "org.postgresql" % "postgresql" % postgresVersion,
       "org.typelevel" %% "cats-effect" % catsEffectVersion,
       "org.tpolecat" %% "doobie-core" % doobieVersion,
@@ -29,7 +31,8 @@ lazy val root = (project in file("."))
       "org.bouncycastle" % "bcprov-jdk15on" % bouncyCastleVersion,
       "com.github.pureconfig" %% "pureconfig" % pureconfigVersion,
       "com.github.pureconfig" %% "pureconfig-cats-effect" % pureconfigVersion,
-      "com.github.t3hnar" %% "scala-bcrypt" % "4.3.0"
+      "com.github.t3hnar" %% "scala-bcrypt" % "4.3.0",
+      "org.scalatest" %% "scalatest" % scalatestVersion % Test
     )
   )
 
