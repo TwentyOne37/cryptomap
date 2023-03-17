@@ -11,6 +11,8 @@ val h2Version = "1.4.200"
 val doobieH2Version = "1.0.0-RC1"
 val scalatestDoobieVersion = "0.10.0"
 val scalatestPlusScalacheckVersion = "3.1.0.0-RC2"
+val mockitoVersion = "4.2.0"
+val weaverVersion = "0.8.1"
 
 lazy val root = (project in file("."))
   .settings(
@@ -36,12 +38,14 @@ lazy val root = (project in file("."))
       "com.github.pureconfig" %% "pureconfig" % pureconfigVersion,
       "com.github.pureconfig" %% "pureconfig-cats-effect" % pureconfigVersion,
       "com.github.t3hnar" %% "scala-bcrypt" % "4.3.0",
-      "org.scalatest" %% "scalatest" % scalatestVersion % Test,
       "com.h2database" % "h2" % h2Version % Test,
       "org.tpolecat" %% "doobie-h2" % doobieH2Version % Test,
-      "org.tpolecat" %% "doobie-scalatest" % doobieH2Version % Test,
-      "org.scalatestplus" %% "scalatestplus-scalacheck" % scalatestPlusScalacheckVersion % Test
+      "org.mockito" % "mockito-core" % mockitoVersion % Test,
+      "com.disneystreaming" %% "weaver-cats" % weaverVersion % Test,
+      "com.disneystreaming" %% "weaver-scalacheck" % weaverVersion % Test
     )
   )
 
 resolvers += "Custom Repository" at "https://github.com/trace4cats/trace4cats"
+
+testFrameworks += new TestFramework("weaver.framework.CatsEffect")

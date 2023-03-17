@@ -1,9 +1,9 @@
-package com.twentyone37.cryptomap.dao
+package com.twentyone37.cryptomap.infrastructure
 
 import cats.effect.IO
 import doobie._
 import doobie.implicits._
-import com.twentyone37.cryptomap.models.Merchant
+import com.twentyone37.cryptomap.domain.merchant.Merchant
 
 class MerchantDaoImpl(transactor: Transactor[IO]) extends MerchantDao {
   override def get(id: Long): IO[Option[Merchant]] = {

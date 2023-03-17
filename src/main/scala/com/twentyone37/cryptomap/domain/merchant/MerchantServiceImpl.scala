@@ -1,8 +1,8 @@
-package com.twentyone37.cryptomap.services
+package com.twentyone37.cryptomap.domain.merchant
 
 import cats.effect.IO
-import com.twentyone37.cryptomap.models.Merchant
-import com.twentyone37.cryptomap.dao.MerchantDao
+import com.twentyone37.cryptomap.domain.merchant.Merchant
+import com.twentyone37.cryptomap.infrastructure.MerchantDao
 
 class MerchantServiceImpl(merchantDao: MerchantDao) extends MerchantService {
   override def get(id: Long): IO[Option[Merchant]] = merchantDao.get(id)

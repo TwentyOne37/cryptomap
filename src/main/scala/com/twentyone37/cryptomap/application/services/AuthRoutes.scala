@@ -1,4 +1,4 @@
-package com.twentyone37.cryptomap.routes
+package com.twentyone37.cryptomap.application.services
 
 import cats.effect.Concurrent
 import cats.syntax.flatMap._
