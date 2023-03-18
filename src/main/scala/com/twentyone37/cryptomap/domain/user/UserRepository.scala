@@ -1,12 +1,11 @@
-package com.twentyone37.cryptomap.repository
+package com.twentyone37.cryptomap.domain.user
 
 import cats.effect.Sync
-import cats.syntax.functor._
-import com.twentyone37.cryptomap.models.User
 
+import com.twentyone37.cryptomap.domain.user.User
 trait UserRepository[F[_]] {
   def findByUsername(username: String): F[Option[User]]
-  def create(user: User): F[Unit]
+  def create(user: User): F[User]
 }
 
 object UserRepository {
@@ -19,8 +18,11 @@ object UserRepository {
       Sync[F].delay(storage.get(username))
     }
 
-    override def create(user: User): F[Unit] = {
-      Sync[F].delay(storage.put(user.username, user)).void
+    override def create(user: User): F[User] = {
+      Sync[F].delay {
+        storage.put(user.username, user)
+        user
+      }
     }
   }
 }

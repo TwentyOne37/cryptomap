@@ -1,31 +1,49 @@
 package com.twentyone37.cryptomap
 
 import cats.effect._
-import org.http4s.HttpRoutes
-import org.http4s.implicits._
-import org.http4s.blaze.server._
-import com.twentyone37.cryptomap.application.services.AuthRoutes
-import com.twentyone37.cryptomap.repository.UserRepository
-import com.twentyone37.cryptomap.services.UserService
+import org.http4s.blaze.server.BlazeServerBuilder
+import org.http4s.server.Router
+import pureconfig.ConfigSource
+import pureconfig.generic.auto._
+import com.twentyone37.cryptomap.application.services._
+import com.twentyone37.cryptomap.infrastructure._
+import com.twentyone37.cryptomap.domain.listing._
+import com.twentyone37.cryptomap.domain.merchant._
+import com.twentyone37.cryptomap.domain.review._
+import com.twentyone37.cryptomap.domain.transaction._
 
 object Main extends IOApp {
-  override def run(args: List[String]): IO[ExitCode] = {
-    val userRepository = UserRepository.impl[IO]
-    val userService = UserService[IO](userRepository)
-    val app = createApp(userService)
 
-    BlazeServerBuilder[IO]
-      .bindHttp(8080, "localhost")
-      .withHttpApp(app.orNotFound)
-      .serve
-      .compile
-      .drain
-      .as(ExitCode.Success)
-  }
-
-  private def createApp(userService: UserService[IO]): HttpRoutes[IO] = {
-    val authRoutes = AuthRoutes(userService).routes
-
-    authRoutes
+  def run(args: List[String]): IO[ExitCode] = {
+    val appConfig = ConfigSource.default.loadOrThrow[AppConfig]
+    val xa =
+      DatabaseConfig.dbTransactor[IO](appConfig.database).use { transactor =>
+        for {
+          _ <- DatabaseConfig.runMigrations[IO](appConfig.database)
+          userDao = new UserDaoImpl(transactor)
+          listingDao = new ListingDaoImpl(transactor)
+          listingService = new ListingServiceImpl(listingDao)
+          merchantDao = new MerchantDaoImpl(transactor)
+          merchantService = new MerchantServiceImpl(merchantDao)
+          reviewDao = new ReviewDaoImpl(transactor)
+          reviewService = new ReviewServiceImpl(reviewDao)
+          transactionDao = new TransactionDaoImpl(transactor)
+          transactionService = new TransactionServiceImpl(transactionDao)
+          httpApp = Router(
+            "/listings" -> ListingRoutes.routes(listingService)(Async[IO])
+            // "/merchants" -> MerchantRoutes.routes(merchantService),
+            // "/reviews" -> ReviewRoutes.routes(reviewService),
+            // "/transactions" -> TransactionRoutes.routes(transactionService)
+          ).orNotFound
+          exitCode <- BlazeServerBuilder[IO]
+            .bindHttp(appConfig.server.port, appConfig.server.host)
+            .withHttpApp(httpApp)
+            .serve
+            .compile
+            .drain
+            .as(ExitCode.Success)
+        } yield exitCode
+      }
+    xa
   }
 }

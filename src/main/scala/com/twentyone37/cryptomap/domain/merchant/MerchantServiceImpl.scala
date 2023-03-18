@@ -1,7 +1,6 @@
 package com.twentyone37.cryptomap.domain.merchant
 
 import cats.effect.IO
-import com.twentyone37.cryptomap.domain.merchant.Merchant
 import com.twentyone37.cryptomap.infrastructure.MerchantDao
 
 class MerchantServiceImpl(merchantDao: MerchantDao) extends MerchantService {

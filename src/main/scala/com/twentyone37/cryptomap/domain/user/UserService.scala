@@ -1,10 +1,9 @@
-package com.twentyone37.cryptomap.services
+package com.twentyone37.cryptomap.domain.user
 
 import cats.effect.Async
 import cats.syntax.all._
-import com.twentyone37.cryptomap.models._
-import com.twentyone37.cryptomap.repository.UserRepository
 import com.twentyone37.cryptomap.auth.Auth
+import com.twentyone37.cryptomap.domain.user.User
 
 trait UserService[F[_]] {
   def login(username: String, password: String): F[Option[User]]

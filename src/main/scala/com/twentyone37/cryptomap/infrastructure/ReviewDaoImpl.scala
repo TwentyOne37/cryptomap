@@ -3,8 +3,7 @@ package com.twentyone37.cryptomap.infrastructure
 import cats.effect.IO
 import doobie._
 import doobie.implicits._
-import com.twentyone37.cryptomap.models.Review
-import com.twentyone37.cryptomap.dao.ReviewDao
+import com.twentyone37.cryptomap.domain.review.Review
 
 class ReviewDaoImpl(transactor: Transactor[IO]) extends ReviewDao {
   override def get(id: Long): IO[Option[Review]] = {

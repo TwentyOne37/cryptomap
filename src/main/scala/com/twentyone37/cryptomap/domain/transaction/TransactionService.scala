@@ -1,7 +1,6 @@
-package com.twentyone37.cryptomap.services
+package com.twentyone37.cryptomap.domain.transaction
 
 import cats.effect.IO
-import com.twentyone37.cryptomap.models.Transaction
 
 trait TransactionService {
   def get(id: Long): IO[Option[Transaction]]

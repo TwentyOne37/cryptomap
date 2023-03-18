@@ -1,4 +1,4 @@
-package com.twentyone37.cryptomap.models
+package com.twentyone37.cryptomap.domain.review
 
 case class Review(
     id: Long,

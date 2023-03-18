@@ -1,5 +1,7 @@
 package com.twentyone37.cryptomap.models.currencies
 
+import io.circe.{Decoder, Encoder}
+
 sealed trait Crypto {
   override def toString: String = this match {
     case BTC  => "BTC"
@@ -40,4 +42,9 @@ object Crypto {
     case "LTC"  => LTC
     case _      => throw new IllegalArgumentException(s"Unknown Crypto: $s")
   }
+
+  implicit val cryptoEncoder: Encoder[Crypto] =
+    Encoder.encodeString.contramap(_.toString)
+  implicit val cryptoDecoder: Decoder[Crypto] =
+    Decoder.decodeString.map(fromString)
 }

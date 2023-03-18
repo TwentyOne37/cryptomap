@@ -2,12 +2,11 @@ package com.twentyone37.cryptomap.domain.listing
 
 import cats.effect.IO
 import cats.effect.unsafe.implicits.global
-import com.twentyone37.cryptomap.models._
 import com.twentyone37.cryptomap.models.currencies.Crypto
 import org.mockito.Mockito._
 import com.twentyone37.cryptomap.domain.DomainTestSuite
-import com.twentyone37.cryptomap.dao.ListingDao
-import com.twentyone37.cryptomap.services.ListingServiceImpl
+import com.twentyone37.cryptomap.infrastructure.ListingDao
+
 import java.math.BigDecimal
 
 object ListingServiceSpec extends DomainTestSuite {
@@ -22,11 +21,20 @@ object ListingServiceSpec extends DomainTestSuite {
     merchantId = 1L
   )
 
+  // Mock implementation for get(id) method
   when(listingDao.get(1L)).thenReturn(IO.pure(Some(sampleListing)))
+
+// Mock implementation for list() method
   when(listingDao.list()).thenReturn(IO.pure(List(sampleListing)))
+
+// Mock implementation for create(listing) method
   when(listingDao.create(sampleListing)).thenReturn(IO.pure(sampleListing))
+
+// Mock implementation for update(listing) method
   when(listingDao.update(sampleListing))
     .thenReturn(IO.pure(Some(sampleListing)))
+
+// Mock implementation for delete(id) method
   when(listingDao.delete(1L)).thenReturn(IO.pure(true))
 
   val listingService = new ListingServiceImpl(listingDao)

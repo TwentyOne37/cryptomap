@@ -1,8 +1,7 @@
-package com.twentyone37.cryptomap.services
+package com.twentyone37.cryptomap.domain.review
 
 import cats.effect.IO
-import com.twentyone37.cryptomap.models.Review
-import com.twentyone37.cryptomap.dao.ReviewDao
+import com.twentyone37.cryptomap.infrastructure.ReviewDao
 
 class ReviewServiceImpl(reviewDao: ReviewDao) {
   def get(id: Long): IO[Option[Review]] = reviewDao.get(id)

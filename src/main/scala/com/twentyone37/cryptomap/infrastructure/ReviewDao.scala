@@ -1,7 +1,7 @@
-package com.twentyone37.cryptomap.dao
+package com.twentyone37.cryptomap.infrastructure
 
 import cats.effect.IO
-import com.twentyone37.cryptomap.models.Review
+import com.twentyone37.cryptomap.domain.review.Review
 
 trait ReviewDao {
   def get(id: Long): IO[Option[Review]]

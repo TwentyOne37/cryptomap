@@ -1,12 +1,11 @@
-package com.twentyone37.cryptomap.services
+package com.twentyone37.cryptomap.domain.listing
 
-import cats.effect.IO
-import com.twentyone37.cryptomap.models.Listing
+import com.twentyone37.cryptomap.domain.listing.Listing
 
-trait ListingService {
-  def get(id: Long): IO[Option[Listing]]
-  def list(): IO[List[Listing]]
-  def create(listing: Listing): IO[Listing]
-  def update(listing: Listing): IO[Option[Listing]]
-  def delete(id: Long): IO[Boolean]
+trait ListingService[F[_]] {
+  def list(): F[List[Listing]]
+  def get(id: Long): F[Option[Listing]]
+  def create(listing: Listing): F[Listing]
+  def update(listing: Listing): F[Option[Listing]]
+  def delete(id: Long): F[Boolean]
 }

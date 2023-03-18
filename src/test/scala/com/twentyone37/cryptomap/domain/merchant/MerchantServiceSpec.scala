@@ -2,19 +2,24 @@ package com.twentyone37.cryptomap.domain.merchant
 
 import cats.effect.IO
 import cats.effect.unsafe.implicits.global
-import com.twentyone37.cryptomap.dao.MerchantDao
 import com.twentyone37.cryptomap.domain.DomainTestSuite
-import com.twentyone37.cryptomap.models.Merchant
+import com.twentyone37.cryptomap.domain.merchant.Merchant
+import com.twentyone37.cryptomap.models.Location
+import com.twentyone37.cryptomap.infrastructure.MerchantDao
 import org.mockito.Mockito._
 
 object MerchantServiceSpec extends DomainTestSuite {
 
   val merchantDao = mock[MerchantDao]
+
+  val sampleLocation: Location =
+    Location(address = "Sample Address", latitude = 1, longitude = 1)
+
   val sampleMerchant = Merchant(
     id = 1L,
     name = "Sample Merchant",
     email = "sample@merchant.com",
-    location = "Sample Location"
+    location = sampleLocation
   )
 
   when(merchantDao.get(1L)).thenReturn(IO.pure(Some(sampleMerchant)))

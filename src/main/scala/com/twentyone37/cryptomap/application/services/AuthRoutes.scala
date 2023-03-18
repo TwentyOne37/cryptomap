@@ -7,8 +7,7 @@ import io.circe.generic.auto._
 import org.http4s.circe._
 import org.http4s._
 import org.http4s.dsl.Http4sDsl
-import com.twentyone37.cryptomap.models._
-import com.twentyone37.cryptomap.services.UserService
+import com.twentyone37.cryptomap.domain.user._
 
 class AuthRoutes[F[_]: Concurrent](userService: UserService[F])
     extends Http4sDsl[F] {

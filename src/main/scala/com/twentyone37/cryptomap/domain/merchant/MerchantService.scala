@@ -1,7 +1,6 @@
 package com.twentyone37.cryptomap.domain.merchant
 
 import cats.effect.IO
-import com.twentyone37.cryptomap.domain.merchant.Merchant
 
 trait MerchantService {
   def get(id: Long): IO[Option[Merchant]]

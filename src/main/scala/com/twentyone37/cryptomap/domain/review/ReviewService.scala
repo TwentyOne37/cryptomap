@@ -1,7 +1,6 @@
-package com.twentyone37.cryptomap.services
+package com.twentyone37.cryptomap.domain.review
 
 import cats.effect.IO
-import com.twentyone37.cryptomap.models.Review
 
 trait ReviewService {
   def get(id: Long): IO[Option[Review]]
