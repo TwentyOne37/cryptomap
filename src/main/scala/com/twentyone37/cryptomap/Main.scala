@@ -1,8 +1,11 @@
 package com.twentyone37.cryptomap
 
 import cats.effect._
+import cats.implicits._
 import org.http4s.blaze.server.BlazeServerBuilder
 import org.http4s.server.Router
+import org.http4s.implicits._
+import org.slf4j.LoggerFactory
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._
 import com.twentyone37.cryptomap.application.services._
@@ -20,6 +23,7 @@ object Main extends IOApp {
       DatabaseConfig.dbTransactor[IO](appConfig.database).use { transactor =>
         for {
           _ <- DatabaseConfig.runMigrations[IO](appConfig.database)
+          logger = LoggerFactory.getLogger(getClass)
           userDao = new UserDaoImpl(transactor)
           listingDao = new ListingDaoImpl(transactor)
           listingService = new ListingServiceImpl(listingDao)
@@ -29,14 +33,18 @@ object Main extends IOApp {
           reviewService = new ReviewServiceImpl(reviewDao)
           transactionDao = new TransactionDaoImpl(transactor)
           transactionService = new TransactionServiceImpl(transactionDao)
-          httpApp = Router(
-            "/listings" -> ListingRoutes.routes(listingService)(Async[IO]),
-            "/merchants" -> MerchantRoutes.routes(merchantService)(Async[IO]),
-            "/reviews" -> ReviewRoutes.routes(reviewService)(Async[IO]),
-            "/transactions" -> TransactionRoutes.routes(transactionService)(
+          // todo: whole main can looks nicer
+          routes =
+            ListingRoutes.routes(listingService, logger)(
+              Async[IO]
+            ) <+> MerchantRoutes.routes(merchantService)(
+              Async[IO]
+            ) <+> ReviewRoutes.routes(
+              reviewService
+            )(Async[IO]) <+> TransactionRoutes.routes(transactionService)(
               Async[IO]
             )
-          ).orNotFound
+          httpApp = Router("/" -> routes).orNotFound
           exitCode <- BlazeServerBuilder[IO]
             .bindHttp(appConfig.server.port, appConfig.server.host)
             .withHttpApp(httpApp)

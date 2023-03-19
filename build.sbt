@@ -13,6 +13,8 @@ val scalatestDoobieVersion = "0.10.0"
 val scalatestPlusScalacheckVersion = "3.1.0.0-RC2"
 val weaverVersion = "0.8.1"
 val flywayVersion = "9.16.0"
+val sttpOauth2Version = "0.16.0"
+val logbackVersion = "1.2.6"
 
 lazy val root = (project in file("."))
   .settings(
@@ -39,6 +41,8 @@ lazy val root = (project in file("."))
       "com.github.pureconfig" %% "pureconfig-cats-effect" % pureconfigVersion,
       "com.github.t3hnar" %% "scala-bcrypt" % "4.3.0",
       "org.flywaydb" % "flyway-core" % flywayVersion,
+      "com.ocadotechnology" %% "sttp-oauth2" % sttpOauth2Version,
+      "ch.qos.logback" % "logback-classic" % logbackVersion,
       "com.h2database" % "h2" % h2Version % Test,
       "org.tpolecat" %% "doobie-h2" % doobieH2Version % Test,
       "com.disneystreaming" %% "weaver-cats" % weaverVersion % Test,

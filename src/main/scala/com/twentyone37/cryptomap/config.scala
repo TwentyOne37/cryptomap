@@ -46,6 +46,7 @@ object DatabaseConfig {
     val flyway = Flyway
       .configure()
       .dataSource(db.url, db.user, db.password)
+      .baselineOnMigrate(true)
       .load()
     flyway.migrate()
     ()

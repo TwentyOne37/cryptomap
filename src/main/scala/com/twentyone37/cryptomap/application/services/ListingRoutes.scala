@@ -4,22 +4,28 @@ import cats.effect.Async
 import cats.data.OptionT
 import org.http4s._
 import org.http4s.dsl.Http4sDsl
-import com.twentyone37.cryptomap.domain.listing._
 import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.EntityEncoder._
+import org.slf4j.Logger
+import com.twentyone37.cryptomap.domain.listing._
 
 object ListingRoutes {
 
   def routes[F[_]: Async](
-      listingService: ListingService[F]
+      listingService: ListingService[F],
+      logger: Logger
   ): HttpRoutes[F] = {
     val dsl = new Http4sDsl[F] {}
     import dsl._
 
     HttpRoutes.of[F] {
-      case GET -> Root / "listings" =>
+      case GET -> Root / "listings" => {
+        logger.info("ListingRoutes: GET /listings")
+        logger.debug("Debug message from ListingRoutes")
+        logger.warn("Warning message from ListingRoutes")
         Ok(listingService.list())
+      }
 
       case GET -> Root / "listings" / LongVar(id) =>
         (for {
