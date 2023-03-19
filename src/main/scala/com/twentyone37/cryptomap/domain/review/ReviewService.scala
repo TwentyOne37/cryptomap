@@ -1,11 +1,9 @@
 package com.twentyone37.cryptomap.domain.review
 
-import cats.effect.IO
-
-trait ReviewService {
-  def get(id: Long): IO[Option[Review]]
-  def list(): IO[List[Review]]
-  def create(review: Review): IO[Review]
-  def update(review: Review): IO[Option[Review]]
-  def delete(id: Long): IO[Boolean]
+trait ReviewService[F[_]] {
+  def get(id: Long): F[Option[Review]]
+  def list(): F[List[Review]]
+  def create(review: Review): F[Review]
+  def update(review: Review): F[Option[Review]]
+  def delete(id: Long): F[Boolean]
 }

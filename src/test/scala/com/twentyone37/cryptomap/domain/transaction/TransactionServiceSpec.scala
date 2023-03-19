@@ -1,15 +1,13 @@
 package com.twentyone37.cryptomap.domain.transaction
 
 import cats.effect.IO
-import cats.effect.unsafe.implicits.global
-import com.twentyone37.cryptomap.domain.DomainTestSuite
+import weaver.SimpleIOSuite
+
 import com.twentyone37.cryptomap.domain.transaction.Transaction
 import com.twentyone37.cryptomap.infrastructure.TransactionDao
-import org.mockito.Mockito._
 
-object TransactionServiceSpec extends DomainTestSuite {
+object TransactionServiceSpec extends SimpleIOSuite {
 
-  val transactionDao = mock[TransactionDao]
   val sampleTransaction = Transaction(
     id = 1L,
     amount = 100.00,
@@ -17,43 +15,47 @@ object TransactionServiceSpec extends DomainTestSuite {
     listingId = 1L
   )
 
-  when(transactionDao.get(1L)).thenReturn(IO.pure(Some(sampleTransaction)))
-  when(transactionDao.list()).thenReturn(IO.pure(List(sampleTransaction)))
-  when(transactionDao.create(sampleTransaction))
-    .thenReturn(IO.pure(sampleTransaction))
-  when(transactionDao.update(sampleTransaction))
-    .thenReturn(IO.pure(Some(sampleTransaction)))
-  when(transactionDao.delete(1L)).thenReturn(IO.pure(true))
+  val transactionDao: TransactionDao[IO] = new TransactionDao[IO] {
+    def get(id: Long): IO[Option[Transaction]] =
+      IO.pure(if (id == sampleTransaction.id) Some(sampleTransaction) else None)
+    def list(): IO[List[Transaction]] = IO.pure(List(sampleTransaction))
+    def create(transaction: Transaction): IO[Transaction] =
+      IO.pure(sampleTransaction)
+    def update(transaction: Transaction): IO[Option[Transaction]] =
+      IO.pure(Some(sampleTransaction))
+    def delete(id: Long): IO[Boolean] = IO.pure(id == sampleTransaction.id)
+  }
 
   val transactionService = new TransactionServiceImpl(transactionDao)
 
-  pureTest("get(id)") {
-    expect(
-      transactionService.get(1L).unsafeRunSync() == Some(sampleTransaction)
-    )
+  test("get(id)") {
+    for {
+      result <- transactionService.get(1L)
+    } yield expect(result == Some(sampleTransaction))
   }
 
-  pureTest("list()") {
-    expect(transactionService.list().unsafeRunSync() == List(sampleTransaction))
+  test("list()") {
+    for {
+      result <- transactionService.list()
+    } yield expect(result == List(sampleTransaction))
   }
 
-  pureTest("create(transaction)") {
-    expect(
-      transactionService
-        .create(sampleTransaction)
-        .unsafeRunSync() == sampleTransaction
-    )
+  test("create(transaction)") {
+    for {
+      result <- transactionService.create(sampleTransaction)
+    } yield expect(result == sampleTransaction)
   }
 
-  pureTest("update(transaction)") {
-    expect(
-      transactionService.update(sampleTransaction).unsafeRunSync() == Some(
-        sampleTransaction
-      )
-    )
+  test("update(transaction)") {
+    for {
+      result <- transactionService.update(sampleTransaction)
+    } yield expect(result == Some(sampleTransaction))
   }
 
-  pureTest("delete(id)") {
-    expect(transactionService.delete(1L).unsafeRunSync() == true)
+  test("delete(id)") {
+    for {
+      result <- transactionService.delete(1L)
+    } yield expect(result == true)
   }
+
 }

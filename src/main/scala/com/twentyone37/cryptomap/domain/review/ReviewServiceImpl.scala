@@ -1,12 +1,13 @@
 package com.twentyone37.cryptomap.domain.review
 
-import cats.effect.IO
 import com.twentyone37.cryptomap.infrastructure.ReviewDao
 
-class ReviewServiceImpl(reviewDao: ReviewDao) {
-  def get(id: Long): IO[Option[Review]] = reviewDao.get(id)
-  def list(): IO[List[Review]] = reviewDao.list()
-  def create(review: Review): IO[Review] = reviewDao.create(review)
-  def update(review: Review): IO[Option[Review]] = reviewDao.update(review)
-  def delete(id: Long): IO[Boolean] = reviewDao.delete(id)
+class ReviewServiceImpl[F[_]](reviewDao: ReviewDao[F])
+    extends ReviewService[F] {
+  override def get(id: Long): F[Option[Review]] = reviewDao.get(id)
+  override def list(): F[List[Review]] = reviewDao.list()
+  override def create(review: Review): F[Review] = reviewDao.create(review)
+  override def update(review: Review): F[Option[Review]] =
+    reviewDao.update(review)
+  override def delete(id: Long): F[Boolean] = reviewDao.delete(id)
 }

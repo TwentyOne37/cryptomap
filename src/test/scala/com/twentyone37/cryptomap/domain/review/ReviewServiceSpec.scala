@@ -1,15 +1,11 @@
 package com.twentyone37.cryptomap.domain.review
 
 import cats.effect.IO
-import cats.effect.unsafe.implicits.global
-import com.twentyone37.cryptomap.domain.DomainTestSuite
 import com.twentyone37.cryptomap.infrastructure.ReviewDao
-import com.twentyone37.cryptomap.domain.review.Review
-import org.mockito.Mockito._
+import weaver.SimpleIOSuite
 
-object ReviewServiceSpec extends DomainTestSuite {
+object ReviewServiceSpec extends SimpleIOSuite {
 
-  val reviewDao = mock[ReviewDao]
   val sampleReview = Review(
     id = 1L,
     rating = 5,
@@ -18,35 +14,45 @@ object ReviewServiceSpec extends DomainTestSuite {
     merchantId = 1L
   )
 
-  when(reviewDao.get(1L)).thenReturn(IO.pure(Some(sampleReview)))
-  when(reviewDao.list()).thenReturn(IO.pure(List(sampleReview)))
-  when(reviewDao.create(sampleReview)).thenReturn(IO.pure(sampleReview))
-  when(reviewDao.update(sampleReview)).thenReturn(IO.pure(Some(sampleReview)))
-  when(reviewDao.delete(1L)).thenReturn(IO.pure(true))
-
-  val reviewService = new ReviewServiceImpl(reviewDao)
-
-  pureTest("get(id)") {
-    expect(reviewService.get(1L).unsafeRunSync() == Some(sampleReview))
+  val reviewDao: ReviewDao[IO] = new ReviewDao[IO] {
+    def get(id: Long): IO[Option[Review]] =
+      IO.pure(if (id == sampleReview.id) Some(sampleReview) else None)
+    def list(): IO[List[Review]] = IO.pure(List(sampleReview))
+    def create(review: Review): IO[Review] = IO.pure(sampleReview)
+    def update(review: Review): IO[Option[Review]] =
+      IO.pure(Some(sampleReview))
+    def delete(id: Long): IO[Boolean] = IO.pure(id == sampleReview.id)
   }
 
-  pureTest("list()") {
-    expect(reviewService.list().unsafeRunSync() == List(sampleReview))
+  val reviewService = new ReviewServiceImpl[IO](reviewDao)
+
+  test("get(id)") {
+    for {
+      result <- reviewService.get(1L)
+    } yield expect(result == Some(sampleReview))
   }
 
-  pureTest("create(review)") {
-    expect(
-      reviewService.create(sampleReview).unsafeRunSync() == sampleReview
-    )
+  test("list()") {
+    for {
+      result <- reviewService.list()
+    } yield expect(result == List(sampleReview))
   }
 
-  pureTest("update(review)") {
-    expect(
-      reviewService.update(sampleReview).unsafeRunSync() == Some(sampleReview)
-    )
+  test("create(review)") {
+    for {
+      result <- reviewService.create(sampleReview)
+    } yield expect(result == sampleReview)
   }
 
-  pureTest("delete(id)") {
-    expect(reviewService.delete(1L).unsafeRunSync() == true)
+  test("update(review)") {
+    for {
+      result <- reviewService.update(sampleReview)
+    } yield expect(result == Some(sampleReview))
+  }
+
+  test("delete(id)") {
+    for {
+      result <- reviewService.delete(1L)
+    } yield expect(result == true)
   }
 }

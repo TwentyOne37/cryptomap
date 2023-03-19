@@ -30,10 +30,12 @@ object Main extends IOApp {
           transactionDao = new TransactionDaoImpl(transactor)
           transactionService = new TransactionServiceImpl(transactionDao)
           httpApp = Router(
-            "/listings" -> ListingRoutes.routes(listingService)(Async[IO])
-            // "/merchants" -> MerchantRoutes.routes(merchantService),
-            // "/reviews" -> ReviewRoutes.routes(reviewService),
-            // "/transactions" -> TransactionRoutes.routes(transactionService)
+            "/listings" -> ListingRoutes.routes(listingService)(Async[IO]),
+            "/merchants" -> MerchantRoutes.routes(merchantService)(Async[IO]),
+            "/reviews" -> ReviewRoutes.routes(reviewService)(Async[IO]),
+            "/transactions" -> TransactionRoutes.routes(transactionService)(
+              Async[IO]
+            )
           ).orNotFound
           exitCode <- BlazeServerBuilder[IO]
             .bindHttp(appConfig.server.port, appConfig.server.host)

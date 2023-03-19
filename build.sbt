@@ -11,7 +11,6 @@ val h2Version = "1.4.200"
 val doobieH2Version = "1.0.0-RC1"
 val scalatestDoobieVersion = "0.10.0"
 val scalatestPlusScalacheckVersion = "3.1.0.0-RC2"
-val mockitoVersion = "4.2.0"
 val weaverVersion = "0.8.1"
 val flywayVersion = "9.16.0"
 
@@ -42,8 +41,6 @@ lazy val root = (project in file("."))
       "org.flywaydb" % "flyway-core" % flywayVersion,
       "com.h2database" % "h2" % h2Version % Test,
       "org.tpolecat" %% "doobie-h2" % doobieH2Version % Test,
-      "org.mockito" % "mockito-core" % mockitoVersion % Test,
-      "org.mockito" %% "mockito-scala" % "1.16.42",
       "com.disneystreaming" %% "weaver-cats" % weaverVersion % Test,
       "com.disneystreaming" %% "weaver-scalacheck" % weaverVersion % Test
     )

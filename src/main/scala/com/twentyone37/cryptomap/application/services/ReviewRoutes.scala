@@ -1,33 +1,47 @@
 package com.twentyone37.cryptomap.application.services
 
-import cats.effect._
+import cats.effect.Async
+import cats.data.OptionT
 import org.http4s._
 import org.http4s.dsl.Http4sDsl
+import com.twentyone37.cryptomap.domain.review._
+import org.http4s.circe.CirceEntityDecoder._
+import org.http4s.circe.CirceEntityEncoder._
 
 object ReviewRoutes {
-  def apply[F[_]: Async](): HttpRoutes[F] = {
+  def routes[F[_]: Async](reviewService: ReviewService[F]): HttpRoutes[F] = {
     val dsl = new Http4sDsl[F] {}
     import dsl._
+
     HttpRoutes.of[F] {
-      case GET -> Root / "review" =>
-        // Handle GET /review request
-        ???
+      case GET -> Root / "reviews" =>
+        Ok(reviewService.list())
 
-      case GET -> Root / "review" / LongVar(_) =>
-        // Handle GET /review/:id request
-        ???
+      case GET -> Root / "reviews" / LongVar(id) =>
+        (for {
+          review <- OptionT(reviewService.get(id))
+          response <- OptionT.liftF(Ok(review))
+        } yield response).getOrElseF(NotFound(s"Review not found with id: $id"))
 
-      case _ @POST -> Root / "review" =>
-        // Handle POST /review request
-        ???
+      case req @ POST -> Root / "reviews" =>
+        Async[F].flatMap(req.as[Review]) { review =>
+          Created(reviewService.create(review))
+        }
 
-      case _ @PUT -> Root / "review" / LongVar(_) =>
-        // Handle PUT /review/:id request
-        ???
+      case req @ PUT -> Root / "reviews" / LongVar(id) =>
+        Async[F].flatMap(req.as[Review]) { updatedReview =>
+          (for {
+            review <- OptionT(reviewService.update(updatedReview.copy(id = id)))
+            response <- OptionT.liftF(Ok(review))
+          } yield response)
+            .getOrElseF(NotFound(s"Review not found with id: $id"))
+        }
 
-      case DELETE -> Root / "review" / LongVar(_) =>
-        // Handle DELETE /review/:id request
-        ???
+      case DELETE -> Root / "reviews" / LongVar(id) =>
+        Async[F].flatMap(reviewService.delete(id)) {
+          case true  => NoContent()
+          case false => NotFound(s"Review not found with id: $id")
+        }
     }
   }
 }
