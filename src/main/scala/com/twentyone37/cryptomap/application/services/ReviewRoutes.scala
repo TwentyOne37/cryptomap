@@ -24,7 +24,7 @@ object ReviewRoutes {
         } yield response).getOrElseF(NotFound(s"Review not found with id: $id"))
 
       case req @ POST -> Root / "reviews" =>
-        Async[F].flatMap(req.as[Review]) { review =>
+        Async[F].flatMap(req.as[NewReview]) { review =>
           Created(reviewService.create(review))
         }
 

@@ -4,11 +4,11 @@ import cats.effect.Async
 import cats.data.OptionT
 import org.http4s._
 import org.http4s.dsl.Http4sDsl
+import com.twentyone37.cryptomap.domain.listing._
 import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.EntityEncoder._
 import org.slf4j.Logger
-import com.twentyone37.cryptomap.domain.listing._
 
 object ListingRoutes {
 
@@ -22,8 +22,6 @@ object ListingRoutes {
     HttpRoutes.of[F] {
       case GET -> Root / "listings" => {
         logger.info("ListingRoutes: GET /listings")
-        logger.debug("Debug message from ListingRoutes")
-        logger.warn("Warning message from ListingRoutes")
         Ok(listingService.list())
       }
 
@@ -35,21 +33,27 @@ object ListingRoutes {
           .getOrElseF(NotFound(s"Listing not found with id: $id"))
 
       case req @ POST -> Root / "listings" =>
-        Async[F].flatMap(req.as[Listing]) { listing =>
+        Async[F].flatMap(req.as[NewListing]) { listing =>
           Created(listingService.create(listing))
         }
 
       case req @ PUT -> Root / "listings" / LongVar(id) =>
-        Async[F].flatMap(req.as[Listing]) { updatedListing =>
+        Async[F].flatMap(req.as[NewListing]) { updatedListingData =>
           (for {
-            listing <- OptionT(
-              listingService.update(updatedListing.copy(id = id))
-            )
+            currentListing <- OptionT(listingService.get(id))
+            updatedListing = updatedListingData
+              .toListing(id)
+              .copy(
+                createdAt = currentListing.createdAt,
+                updatedAt = java.time.LocalDateTime.now()
+              )
+            listing <- OptionT(listingService.update(updatedListing))
             response <- OptionT.liftF(Ok(listing))
           } yield response)
             .getOrElseF(NotFound(s"Listing not found with id: $id"))
         }
 
+      // todo: doesn't work - repair if it will be needed
       case DELETE -> Root / "listings" / LongVar(id) =>
         Async[F].flatMap(listingService.delete(id)) {
           case true  => NoContent()

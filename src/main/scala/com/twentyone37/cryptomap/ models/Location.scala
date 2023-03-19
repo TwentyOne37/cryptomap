@@ -4,6 +4,7 @@ import io.circe._
 import io.circe.generic.semiauto._
 
 case class Location(
+    id: Long,
     address: String,
     latitude: Double,
     longitude: Double

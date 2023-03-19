@@ -10,6 +10,7 @@ import com.twentyone37.cryptomap.models.currencies.Crypto
 import scala.annotation.nowarn
 import java.time.LocalDateTime
 
+// todo: updatedAt should be optional
 case class Listing(
     id: Long,
     title: String,
