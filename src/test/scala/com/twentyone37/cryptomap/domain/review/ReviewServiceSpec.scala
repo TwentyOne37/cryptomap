@@ -14,11 +14,18 @@ object ReviewServiceSpec extends SimpleIOSuite {
     merchantId = 1L
   )
 
+  val sampleNewReview = NewReview(
+    rating = 5,
+    comment = "A sample review",
+    userId = 5,
+    merchantId = 1L
+  )
+
   val reviewDao: ReviewDao[IO] = new ReviewDao[IO] {
     def get(id: Long): IO[Option[Review]] =
       IO.pure(if (id == sampleReview.id) Some(sampleReview) else None)
     def list(): IO[List[Review]] = IO.pure(List(sampleReview))
-    def create(review: Review): IO[Review] = IO.pure(sampleReview)
+    def create(review: NewReview): IO[Review] = IO.pure(sampleReview)
     def update(review: Review): IO[Option[Review]] =
       IO.pure(Some(sampleReview))
     def delete(id: Long): IO[Boolean] = IO.pure(id == sampleReview.id)
@@ -40,7 +47,7 @@ object ReviewServiceSpec extends SimpleIOSuite {
 
   test("create(review)") {
     for {
-      result <- reviewService.create(sampleReview)
+      result <- reviewService.create(sampleNewReview)
     } yield expect(result == sampleReview)
   }
 

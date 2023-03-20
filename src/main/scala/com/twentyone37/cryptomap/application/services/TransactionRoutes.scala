@@ -27,7 +27,7 @@ object TransactionRoutes {
           .getOrElseF(NotFound(s"Transaction not found with id: $id"))
 
       case req @ POST -> Root / "transactions" =>
-        Async[F].flatMap(req.as[Transaction]) { transaction =>
+        Async[F].flatMap(req.as[NewTransaction]) { transaction =>
           Created(transactionService.create(transaction))
         }
 

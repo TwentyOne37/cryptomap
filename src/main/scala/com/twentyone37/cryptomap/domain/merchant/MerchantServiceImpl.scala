@@ -6,8 +6,8 @@ class MerchantServiceImpl[F[_]](merchantDao: MerchantDao[F])
     extends MerchantService[F] {
   override def get(id: Long): F[Option[Merchant]] = merchantDao.get(id)
   override def list(): F[List[Merchant]] = merchantDao.list()
-  override def create(merchant: Merchant): F[Merchant] =
-    merchantDao.create(merchant)
+  override def create(newMerchant: NewMerchant): F[Merchant] =
+    merchantDao.create(newMerchant)
   override def update(merchant: Merchant): F[Option[Merchant]] =
     merchantDao.update(merchant)
   override def delete(id: Long): F[Boolean] = merchantDao.delete(id)

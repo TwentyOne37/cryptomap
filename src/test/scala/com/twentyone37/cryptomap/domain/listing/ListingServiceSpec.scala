@@ -20,12 +20,18 @@ object ListingServiceSpec extends SimpleIOSuite {
     createdAt = now,
     updatedAt = now
   )
+  val sampleNewListing = NewListing(
+    title = "Sample Listing",
+    description = "A sample listing",
+    price = 1L,
+    crypto = Crypto.fromString("BTC")
+  )
 
   val listingDao: ListingDao[IO] = new ListingDao[IO] {
     def get(id: Long): IO[Option[Listing]] =
       IO.pure(if (id == sampleListing.id) Some(sampleListing) else None)
     def list(): IO[List[Listing]] = IO.pure(List(sampleListing))
-    def create(listing: Listing): IO[Listing] = IO.pure(sampleListing)
+    def create(listing: NewListing): IO[Listing] = IO.pure(sampleListing)
     def update(listing: Listing): IO[Option[Listing]] =
       IO.pure(Some(sampleListing))
     def delete(id: Long): IO[Boolean] = IO.pure(id == sampleListing.id)
@@ -47,7 +53,7 @@ object ListingServiceSpec extends SimpleIOSuite {
 
   test("create(listing)") {
     for {
-      result <- listingService.create(sampleListing)
+      result <- listingService.create(sampleNewListing)
     } yield expect(result == sampleListing)
   }
 

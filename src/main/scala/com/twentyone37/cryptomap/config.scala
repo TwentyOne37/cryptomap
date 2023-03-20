@@ -6,6 +6,9 @@ import doobie.hikari.HikariTransactor
 import org.flywaydb.core.Flyway
 import cats.effect.std.Dispatcher
 import scala.concurrent.ExecutionContext
+import java.sql.DriverManager
+import java.util.Properties
+import java.sql.ResultSet
 
 case class AppConfig(server: ServerConfig, database: DatabaseConfig)
 
@@ -41,6 +44,35 @@ object DatabaseConfig {
       )
     }
   }
+
+  def createDatabaseIfNotExists[F[_]: Async](db: DatabaseConfig): F[Unit] =
+    Async[F].delay {
+      Class.forName("org.postgresql.Driver")
+      val connectionUrl =
+        db.url
+          .split("/")
+          .dropRight(1)
+          .mkString("/") + "/" // Add a "/" at the end of the URL
+      val dbName = db.url.split("/").last // Extract the database name
+      val props = new Properties()
+      props.setProperty("user", db.user)
+      props.setProperty("password", db.password)
+
+      val connection = DriverManager.getConnection(connectionUrl, props)
+      val statement = connection.createStatement()
+
+      val resultSet: ResultSet = statement.executeQuery(
+        s"SELECT 1 FROM pg_database WHERE datname = '$dbName'"
+      )
+      if (!resultSet.next()) {
+        statement.execute(s"CREATE DATABASE $dbName")
+      }
+
+      resultSet.close()
+      statement.close()
+      connection.close()
+      ()
+    }
 
   def runMigrations[F[_]: Async](db: DatabaseConfig): F[Unit] = Async[F].delay {
     val flyway = Flyway

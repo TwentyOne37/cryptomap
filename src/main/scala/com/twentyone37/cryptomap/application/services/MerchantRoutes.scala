@@ -28,7 +28,7 @@ object MerchantRoutes {
           .getOrElseF(NotFound(s"Merchant not found with id: $id"))
 
       case req @ POST -> Root / "merchants" =>
-        Async[F].flatMap(req.as[Merchant]) { merchant =>
+        Async[F].flatMap(req.as[NewMerchant]) { merchant =>
           Created(merchantService.create(merchant))
         }
 

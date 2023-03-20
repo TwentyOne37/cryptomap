@@ -22,6 +22,7 @@ object Main extends IOApp {
     val xa =
       DatabaseConfig.dbTransactor[IO](appConfig.database).use { transactor =>
         for {
+          _ <- DatabaseConfig.createDatabaseIfNotExists[IO](appConfig.database)
           _ <- DatabaseConfig.runMigrations[IO](appConfig.database)
           logger = LoggerFactory.getLogger(getClass)
           userDao = new UserDaoImpl(transactor)
@@ -33,7 +34,6 @@ object Main extends IOApp {
           reviewService = new ReviewServiceImpl(reviewDao)
           transactionDao = new TransactionDaoImpl(transactor)
           transactionService = new TransactionServiceImpl(transactionDao)
-          // todo: whole main can looks nicer
           routes =
             ListingRoutes.routes(listingService, logger)(
               Async[IO]

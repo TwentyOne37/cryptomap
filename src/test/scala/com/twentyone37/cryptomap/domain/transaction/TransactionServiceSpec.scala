@@ -15,11 +15,17 @@ object TransactionServiceSpec extends SimpleIOSuite {
     listingId = 1L
   )
 
+  val newSampleTransaction = NewTransaction(
+    amount = 100.00,
+    userId = 1L,
+    listingId = 1L
+  )
+
   val transactionDao: TransactionDao[IO] = new TransactionDao[IO] {
     def get(id: Long): IO[Option[Transaction]] =
       IO.pure(if (id == sampleTransaction.id) Some(sampleTransaction) else None)
     def list(): IO[List[Transaction]] = IO.pure(List(sampleTransaction))
-    def create(transaction: Transaction): IO[Transaction] =
+    def create(transaction: NewTransaction): IO[Transaction] =
       IO.pure(sampleTransaction)
     def update(transaction: Transaction): IO[Option[Transaction]] =
       IO.pure(Some(sampleTransaction))
@@ -42,7 +48,7 @@ object TransactionServiceSpec extends SimpleIOSuite {
 
   test("create(transaction)") {
     for {
-      result <- transactionService.create(sampleTransaction)
+      result <- transactionService.create(newSampleTransaction)
     } yield expect(result == sampleTransaction)
   }
 

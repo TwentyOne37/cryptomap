@@ -1,0 +1,496 @@
+{
+	"info": {
+		"_postman_id": "9ee3ac39-af9f-4a27-8325-495aa73b90d5",
+		"name": "CryptoM.app API v1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8052765"
+	},
+	"item": [
+		{
+			"name": "/listings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/listings",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"listings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/transactions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/listings",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"listings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/reviews",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/reviews",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/merchants",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/listings",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"listings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/listings/1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/listings/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"listings",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/reviews/1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/reviews/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"reviews",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/merchants/1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/reviews/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"reviews",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/transactions/1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/reviews/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"reviews",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/listings",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Sample Product\",\n    \"description\": \"This is a sample product description\",\n    \"price\": 100.00,\n    \"crypto\": \"BTC\"\n}\n"
+				},
+				"url": {
+					"raw": "localhost:8080/listings",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"listings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/reviews",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"rating\": 5,\n  \"comment\": \"Great merchant, excellent service!\",\n  \"userId\": 1,\n  \"merchantId\": 1\n}\n"
+				},
+				"url": {
+					"raw": "localhost:8080/reviews",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/merchants",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Acme Corporation\",\n  \"email\": \"acme@example.com\",\n  \"location\": {\n    \"id\": 1,\n    \"address\": \"123 Main St, San Francisco, CA 94103\",\n    \"latitude\": 37.7749,\n    \"longitude\": -122.4194\n  }\n}\n"
+				},
+				"url": {
+					"raw": "localhost:8080/merchants",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"merchants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/transactions",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"amount\": 50.0,\n  \"userId\": 123,\n  \"listingId\": 456\n}\n"
+				},
+				"url": {
+					"raw": "localhost:8080/transactions",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/listings/1",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Updated title\",\n  \"description\": \"Updated description\",\n  \"price\": 123.45,\n  \"crypto\": \"BTC\"\n}\n"
+				},
+				"url": {
+					"raw": "localhost:8080/listings/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"listings",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/reviews/1",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Updated title\",\n  \"description\": \"Updated description\",\n  \"price\": 123.45,\n  \"crypto\": \"BTC\"\n}\n"
+				},
+				"url": {
+					"raw": "localhost:8080/listings/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"listings",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/merchants/1",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": 1,\n  \"name\": \"Updated Acme Corporation\",\n  \"email\": \"updated_acme@example.com\",\n  \"location\": {\n    \"id\": 1,\n    \"address\": \"456 Updated St, San Francisco, CA 94103\",\n    \"latitude\": 37.7749,\n    \"longitude\": -122.4194\n  }\n}\n"
+				},
+				"url": {
+					"raw": "localhost:8080/merchants/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"merchants",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/transactions/1",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": 123,\n  \"name\": \"New Merchant Name\",\n  \"email\": \"new-email@example.com\",\n  \"location\": {\n    \"lat\": 37.7749,\n    \"lng\": -122.4194\n  }\n}\n"
+				},
+				"url": {
+					"raw": "localhost:8080/merchants/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"merchants",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/listings/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Updated title\",\n  \"description\": \"Updated description\",\n  \"price\": 123.45,\n  \"crypto\": \"BTC\"\n}\n"
+				},
+				"url": {
+					"raw": "localhost:8080/listings/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"listings",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/reviews/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Updated title\",\n  \"description\": \"Updated description\",\n  \"price\": 123.45,\n  \"crypto\": \"BTC\"\n}\n"
+				},
+				"url": {
+					"raw": "localhost:8080/listings/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"listings",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/merchants/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Updated title\",\n  \"description\": \"Updated description\",\n  \"price\": 123.45,\n  \"crypto\": \"BTC\"\n}\n"
+				},
+				"url": {
+					"raw": "localhost:8080/merchants/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"merchants",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/transactions/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Updated title\",\n  \"description\": \"Updated description\",\n  \"price\": 123.45,\n  \"crypto\": \"BTC\"\n}\n"
+				},
+				"url": {
+					"raw": "localhost:8080/merchants/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"merchants",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

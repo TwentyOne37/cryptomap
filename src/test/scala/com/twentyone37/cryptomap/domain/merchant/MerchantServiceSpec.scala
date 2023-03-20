@@ -9,10 +9,16 @@ import com.twentyone37.cryptomap.infrastructure.MerchantDao
 object MerchantServiceSpec extends SimpleIOSuite {
 
   val sampleLocation: Location =
-    Location(address = "Sample Address", latitude = 1, longitude = 1)
+    Location(1, address = "Sample Address", latitude = 1, longitude = 1)
 
   val sampleMerchant = Merchant(
     id = 1L,
+    name = "Sample Merchant",
+    email = "sample@merchant.com",
+    location = sampleLocation
+  )
+
+  val newSampleMerchat = NewMerchant(
     name = "Sample Merchant",
     email = "sample@merchant.com",
     location = sampleLocation
@@ -22,7 +28,7 @@ object MerchantServiceSpec extends SimpleIOSuite {
     def get(id: Long): IO[Option[Merchant]] =
       IO.pure(if (id == sampleMerchant.id) Some(sampleMerchant) else None)
     def list(): IO[List[Merchant]] = IO.pure(List(sampleMerchant))
-    def create(merchant: Merchant): IO[Merchant] = IO.pure(sampleMerchant)
+    def create(merchant: NewMerchant): IO[Merchant] = IO.pure(sampleMerchant)
     def update(merchant: Merchant): IO[Option[Merchant]] =
       IO.pure(Some(sampleMerchant))
     def delete(id: Long): IO[Boolean] = IO.pure(id == sampleMerchant.id)
@@ -44,7 +50,7 @@ object MerchantServiceSpec extends SimpleIOSuite {
 
   test("create(merchant)") {
     for {
-      result <- merchantService.create(sampleMerchant)
+      result <- merchantService.create(newSampleMerchat)
     } yield expect(result == sampleMerchant)
   }
 

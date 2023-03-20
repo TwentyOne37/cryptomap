@@ -3,7 +3,10 @@ package com.twentyone37.cryptomap.infrastructure
 import cats.effect.Sync
 import doobie._
 import doobie.implicits._
-import com.twentyone37.cryptomap.domain.transaction.Transaction
+import com.twentyone37.cryptomap.domain.transaction.{
+  Transaction,
+  NewTransaction
+}
 
 class TransactionDaoImpl[F[_]: Sync](transactor: Transactor[F])
     extends TransactionDao[F] {
@@ -21,10 +24,10 @@ class TransactionDaoImpl[F[_]: Sync](transactor: Transactor[F])
       .transact(transactor)
   }
 
-  override def create(transaction: Transaction): F[Transaction] = {
-    sql"INSERT INTO transactions (amount, user_id, listing_id) VALUES (${transaction.amount}, ${transaction.userId}, ${transaction.listingId})".update
+  override def create(newTransaction: NewTransaction): F[Transaction] = {
+    sql"INSERT INTO transactions (amount, user_id, listing_id) VALUES (${newTransaction.amount}, ${newTransaction.userId}, ${newTransaction.listingId})".update
       .withUniqueGeneratedKeys[Long]("id")
-      .map(id => transaction.copy(id = id))
+      .map(id => newTransaction.toTransaction(id))
       .transact(transactor)
   }
 
