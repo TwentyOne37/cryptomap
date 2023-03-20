@@ -22,10 +22,12 @@
             "/Users/magdalenasroka/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/io/github/davidgregory084/sbt-tpolecat_2.12_1.0/0.4.1/sbt-tpolecat-0.4.1.jar",
             "/Users/magdalenasroka/Library/Caches/Coursier/v1/https/repo.scala-sbt.org/scalasbt/sbt-plugin-releases/io.spray/sbt-revolver/scala_2.12/sbt_1.0/0.9.1/jars/sbt-revolver.jar",
             "/Users/magdalenasroka/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/com/eed3si9n/sbt-assembly_2.12_1.0/2.0.0/sbt-assembly-2.0.0.jar",
+            "/Users/magdalenasroka/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scoverage/sbt-scoverage_2.12_1.0/1.9.2/sbt-scoverage-1.9.2.jar",
             "/Users/magdalenasroka/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-sbt/main_2.12/1.8.0/main_2.12-1.8.0.jar",
             "/Users/magdalenasroka/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-sbt/io_2.12/1.8.0/io_2.12-1.8.0.jar",
             "/Users/magdalenasroka/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/ch/epfl/scala/bloop-config_2.12/1.5.5/bloop-config_2.12-1.5.5.jar",
             "/Users/magdalenasroka/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/com/eed3si9n/jarjarabrams/jarjar-abrams-core_2.12/1.8.1/jarjar-abrams-core_2.12-1.8.1.jar",
+            "/Users/magdalenasroka/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scoverage/scalac-scoverage-plugin_2.12.14/1.4.10/scalac-scoverage-plugin_2.12.14-1.4.10.jar",
             "/Users/magdalenasroka/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-sbt/logic_2.12/1.8.0/logic_2.12-1.8.0.jar",
             "/Users/magdalenasroka/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-sbt/actions_2.12/1.8.0/actions_2.12-1.8.0.jar",
             "/Users/magdalenasroka/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-sbt/main-settings_2.12/1.8.0/main-settings_2.12-1.8.0.jar",
@@ -169,8 +171,8 @@
                 "import _root_.sbt._",
                 "import _root_.sbt.Keys._",
                 "import _root_.sbt.nio.Keys._",
-                "import _root_.sbt.ScriptedPlugin.autoImport._, _root_.sbt.plugins.JUnitXmlReportPlugin.autoImport._, _root_.sbt.plugins.MiniDependencyTreePlugin.autoImport._, _root_.bloop.integrations.sbt.BloopPlugin.autoImport._, _root_.io.github.davidgregory084.TpolecatPlugin.autoImport._, _root_.spray.revolver.RevolverPlugin.autoImport._, _root_.sbtassembly.AssemblyPlugin.autoImport._",
-                "import _root_.sbt.plugins.IvyPlugin, _root_.sbt.plugins.JvmPlugin, _root_.sbt.plugins.CorePlugin, _root_.sbt.ScriptedPlugin, _root_.sbt.plugins.SbtPlugin, _root_.sbt.plugins.SemanticdbPlugin, _root_.sbt.plugins.JUnitXmlReportPlugin, _root_.sbt.plugins.Giter8TemplatePlugin, _root_.sbt.plugins.MiniDependencyTreePlugin, _root_.bloop.integrations.sbt.BloopPlugin, _root_.io.github.davidgregory084.TpolecatPlugin, _root_.spray.revolver.RevolverPlugin, _root_.sbtassembly.AssemblyPlugin"
+                "import _root_.sbt.ScriptedPlugin.autoImport._, _root_.sbt.plugins.JUnitXmlReportPlugin.autoImport._, _root_.sbt.plugins.MiniDependencyTreePlugin.autoImport._, _root_.bloop.integrations.sbt.BloopPlugin.autoImport._, _root_.io.github.davidgregory084.TpolecatPlugin.autoImport._, _root_.spray.revolver.RevolverPlugin.autoImport._, _root_.sbtassembly.AssemblyPlugin.autoImport._, _root_.scoverage.ScoverageSbtPlugin.autoImport._",
+                "import _root_.sbt.plugins.IvyPlugin, _root_.sbt.plugins.JvmPlugin, _root_.sbt.plugins.CorePlugin, _root_.sbt.ScriptedPlugin, _root_.sbt.plugins.SbtPlugin, _root_.sbt.plugins.SemanticdbPlugin, _root_.sbt.plugins.JUnitXmlReportPlugin, _root_.sbt.plugins.Giter8TemplatePlugin, _root_.sbt.plugins.MiniDependencyTreePlugin, _root_.bloop.integrations.sbt.BloopPlugin, _root_.io.github.davidgregory084.TpolecatPlugin, _root_.spray.revolver.RevolverPlugin, _root_.sbtassembly.AssemblyPlugin, _root_.scoverage.ScoverageSbtPlugin"
             ]
         },
         "test": {
@@ -225,7 +227,7 @@
         "platform": {
             "name": "jvm",
             "config": {
-                "home": "/opt/homebrew/Cellar/openjdk/18.0.1.1/libexec/openjdk.jdk/Contents/Home",
+                "home": "/Users/magdalenasroka/.jabba/jdk/adopt@1.11.0-11/Contents/Home",
                 "options": [
                     "-Duser.dir=/Users/magdalenasroka/Projects/CryptoMap/cryptomapapi/project"
                 ]
@@ -305,6 +307,23 @@
                     ]
                 },
                 {
+                    "organization": "org.scoverage",
+                    "name": "sbt-scoverage",
+                    "version": "1.9.2",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "sbt-scoverage",
+                            "path": "/Users/magdalenasroka/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scoverage/sbt-scoverage_2.12_1.0/1.9.2/sbt-scoverage-1.9.2.jar"
+                        },
+                        {
+                            "name": "sbt-scoverage",
+                            "classifier": "sources",
+                            "path": "/Users/magdalenasroka/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scoverage/sbt-scoverage_2.12_1.0/1.9.2/sbt-scoverage-1.9.2-sources.jar"
+                        }
+                    ]
+                },
+                {
                     "organization": "ch.epfl.scala",
                     "name": "bloop-config_2.12",
                     "version": "1.5.5",
@@ -335,6 +354,23 @@
                             "name": "jarjar-abrams-core_2.12",
                             "classifier": "sources",
                             "path": "/Users/magdalenasroka/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/com/eed3si9n/jarjarabrams/jarjar-abrams-core_2.12/1.8.1/jarjar-abrams-core_2.12-1.8.1-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.scoverage",
+                    "name": "scalac-scoverage-plugin_2.12.14",
+                    "version": "1.4.10",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "scalac-scoverage-plugin_2.12.14",
+                            "path": "/Users/magdalenasroka/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scoverage/scalac-scoverage-plugin_2.12.14/1.4.10/scalac-scoverage-plugin_2.12.14-1.4.10.jar"
+                        },
+                        {
+                            "name": "scalac-scoverage-plugin_2.12.14",
+                            "classifier": "sources",
+                            "path": "/Users/magdalenasroka/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scoverage/scalac-scoverage-plugin_2.12.14/1.4.10/scalac-scoverage-plugin_2.12.14-1.4.10-sources.jar"
                         }
                     ]
                 },
